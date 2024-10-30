@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        Historial de Chat
+    </div>
+
+    <div class="container">
+        <div class="chat-box">
+            {% if historial %}
+                {% for mensaje in historial %}
+                    <div class="chat-message user-message"><strong>Usuario:</strong> {{ mensaje.pregunta }}</div>
+                    <div class="chat-message bot-message"><strong>Bot:</strong> {{ mensaje.respuesta }}</div>
+                {% endfor %}
+            {% else %}
+                <p>No hay historial disponible.</p>
+            {% endif %}
+        </div>
+        <a href="{{ url_for('home') }}" class="back-button">Volver al Chat</a>
+    </div>
+
+    <div class="footer">
+        © 2024 Politecnico Grancolombiano.
+    </div>
+</body>
+</html>

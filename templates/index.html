@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superando limitantes en Linux</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        async function enviarPregunta() {
+            const pregunta = document.getElementById("pregunta").value;
+            const respuestaElemento = document.getElementById("respuesta");
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ pregunta })
+                });
+
+                const data = await response.json();
+                respuestaElemento.innerHTML += `<div class="chat-message user-message">${pregunta}</div>`;
+                respuestaElemento.innerHTML += `<div class="chat-message bot-message">${data.respuesta}</div>`;
+                
+                // Limpiar el campo de entrada
+                document.getElementById("pregunta").value = "";
+            } catch (error) {
+                console.error("Error al enviar la pregunta:", error);
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div class="header">
+        Superando limitantes en Linux: Cómo un Chatbot Transformará la Experiencia de Usuario
+    </div>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png" alt="Tux, mascota de Linux" width="80"><br>
+            <div style="margin-top: 20px;">
+                <a class="historial" href="{{ url_for('historial') }}">Historial</a><br>
+                <a class="logout" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+            </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <div id="respuesta" class="chat-box">
+                <!-- Este espacio se llenará con las respuestas del chatbot -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="pregunta" placeholder="Escribe tu mensaje aquí...">
+                <button onclick="enviarPregunta()">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2024 Politecnico Grancolombiano.
+    </div>
+
+</body>
+</html>
